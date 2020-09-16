@@ -2,6 +2,11 @@ from .models import *
 from rest_framework import serializers
 
 class ProfileSerializer(serializers.ModelSerializer):
+	fullname = serializers.SerializerMethodField()
+
+	def get_fullname(self, obj):
+		return f"{obj.user.first_name} {obj.user.last_name}"
+
 	class Meta:
 		model = Profile
 		fields = "__all__"

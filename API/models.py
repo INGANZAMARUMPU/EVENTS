@@ -8,19 +8,19 @@ class Profile(models.Model):
 	phone = models.CharField(max_length=16, null=False, blank=False)
 	mobile = models.CharField(max_length=16, blank=True, null=True)
 	date = models.DateField(default=timezone.now)
-	autres = models.TextField()
+	autres = models.TextField(blank=True, null=True)
 
 class Ticket(models.Model):
 	name = models.CharField(max_length=20)
 	somme = models.PositiveIntegerField(null=False, blank=False)
 	consommable = models.PositiveIntegerField(default=0)
-	autres = models.TextField()
+	autres = models.TextField(blank=True, null=True)
 
 class Payment(models.Model):
 	profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 	ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
 	date = models.DateField(default=timezone.now)
-	autres = models.TextField()
+	autres = models.TextField(blank=True, null=True)
 
 	def recharge(self, montant:int):
 		ticket = self.ticket
