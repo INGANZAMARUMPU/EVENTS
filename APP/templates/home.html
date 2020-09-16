@@ -30,9 +30,36 @@
                             {{ field.errors }}
                         </div>
                     {% endfor %}
+                    <div style="display: flow-root;">
+                        <div style="float:right;">
+                            <button type="reset">reset</button>
+                            <button type="submit" submit>envoyer</button>
+                        </div>
+                    </div>
                 </form>
             </div>
-            <div class="component profiles"></div>
+            <div class="component profiles">
+                <div style="display: flow-root;">
+                    <input type="text" placeholder="recherche..." style="float:right">
+                </div>
+                <table>
+                    <caption>Tout les abonnées</caption>
+                    <thead>
+                        <tr>
+                            <th>avatar</th>
+                            <th>nom</th>
+                            <th>prenom</th>
+                            <th>mobile</th>
+                            <th>date</th>
+                            <th>autres</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <script src="js/main.js"></script>
     </body>
