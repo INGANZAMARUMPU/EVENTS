@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	user = models.OneToOneField(User, null=True, on_delete=models.SET_NULL)
 	avatar = models.ImageField(upload_to="profiles/")
 	phone = models.CharField(max_length=16, null=False, blank=False)
 	mobile = models.CharField(max_length=16, blank=True, null=True)

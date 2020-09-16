@@ -1,0 +1,35 @@
+.navbar{
+	background-color: #37e;
+	display: inline-block;
+	width: 100%;
+    position: sticky;
+    z-index: 3;
+}
+.navbar ul{
+	float: right;
+}
+.navbar a{
+	text-decoration: none;
+	color: white;
+	font-family: sans-serif;
+	font-size: 20px;
+	padding: 0 5px;
+}
+.navbar li{
+	display: inline-block;
+	padding: 5px 0;
+}
+.navbar li:hover{
+	background-color: #15a;
+}
+.component{
+	width: 500px;
+	box-shadow: 1px 2px 10px 0px black;
+	border-radius: 5px;
+	margin: 10px auto;
+	padding: 10px;
+}
+form .item{
+	display: inline-block;
+	width: 50%;
+}

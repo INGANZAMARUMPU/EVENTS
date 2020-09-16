@@ -1,0 +1,39 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Event Managment</title>
+        <link rel="stylesheet" href="{% static "css/general.css" %}">
+        <link rel="stylesheet" href="{% static "css/home.css" %}">
+    </head>
+    <body>
+        <div class="container">
+            <div class="navbar">
+                <ul>
+                    <li><a href="/">Acceuil</a></li>
+                    <li><a href="/">Ticket</a></li>
+                    <li><a href="/">Payements</a></li>
+                    <li><a href="/">Produits</a></li>
+                    <li><a href="/">Consomations</a></li>
+                </ul>
+            </div>
+            <div class="component profile">
+                <form action="{% url 'home' %}" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="item">
+                            {{ field.non_field_errors }}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {{ field.errors }}
+                        </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="component profiles"></div>
+        </div>
+        <script src="js/main.js"></script>
+    </body>
+</html>

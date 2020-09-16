@@ -4,11 +4,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate
 from django.contrib import messages
 
-from .forms import ConnexionForm
+from .forms import *
 
 class Home(LoginRequiredMixin, View):
 	template_name = "home.html"
 	def get(self, request):
+		form = ProfileForm(request.FILES)
+		return render(request, self.template_name, locals())
+
+	def post(self, request):
+		form = ProfileForm(request.POST, request.FILES)
 		return render(request, self.template_name, locals())
 
 def deconnexion(request):
