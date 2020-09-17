@@ -7,6 +7,7 @@
         <title>Event Managment</title>
         <link rel="stylesheet" href="{% static "css/general.css" %}">
         <link rel="stylesheet" href="{% static "css/home.css" %}">
+        <link rel="stylesheet" href="{% static "css/card.css" %}">
     </head>
     <body>
         <div class="container">
@@ -40,27 +41,118 @@
             </div>
             <div class="component profiles">
                 <div style="display: flow-root;">
-                    <input type="text" placeholder="recherche..." style="float:right">
+                    <input type="text" placeholder="recherche..." style="float:right; height:2em">
                 </div>
-                <table>
-                    <caption>Tout les abonnées</caption>
-                    <thead>
-                        <tr>
-                            <th>avatar</th>
-                            <th>nom</th>
-                            <th>prenom</th>
-                            <th>mobile</th>
-                            <th>date</th>
-                            <th>autres</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="recycler">
+                {% for client in clients %}
+                <div class="user-card">
+                    <div class="img-user">
+                        <img src="{{ client.avatar.url }}" alt="photo de profile" width="30px">
+                    </div>
+                    <div class="user-info">
+                        tel: {{ client.user.mobile }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.first_name }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.last_name }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.tickets }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.date }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.tickets }}
+                    </div>
+                    <div class="user-hover">
+                        <a href="#" class="commands-btn">Impr</a>
+                        <a href="#" class="commands-btn">Mod</a>
+                        <a href="#" class="commands-btn">Suppr</a>
+                    </div>
+                </div>
+                <div class="user-card">
+                    <div class="img-user">
+                        <img src="{{ client.avatar.url }}" alt="photo de profile" width="30px">
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.first_name }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.last_name }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.tickets }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.ticket }}
+                    </div>
+                    <div class="user-hover">
+                        <div class="user-info">{{ client.mobile|default:"00 000 000" }}</div>
+                        <div class="user-info">{{ client.date }}</div>
+                        <a href="#" class="commands-btn">Imprimer</a>
+                        <a href="#" class="commands-btn">Modifier</a>
+                        <a href="#" class="commands-btn">Supprimer</a>
+                    </div>
+                </div>
+                <div class="user-card">
+                    <div class="img-user">
+                        <img src="{{ client.avatar.url }}" alt="photo de profile" width="30px">
+                    </div>
+                    <div class="user-info">
+                        tel: {{ client.user.mobile }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.first_name }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.last_name }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.tickets }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.date }}
+                    </div>
+                    <div class="user-info">
+                        {{ client.user.tickets }}
+                    </div>
+                    <div class="user-hover">
+                        <a href="#" class="commands-btn">Impr</a>
+                        <a href="#" class="commands-btn">Mod</a>
+                        <a href="#" class="commands-btn">Suppr</a>
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
             </div>
         </div>
-        <script src="js/main.js"></script>
+        <div class="ticket">
+            <div class="title">Crazy Event</div>
+            <div class="left">
+                <div class="img-user">
+                    <img src="" alt="">
+                </div>
+                <h3>Jonathan</h3>
+                <h3>Nkurunziza</h3>
+                <div class="bottom-infos">
+                    <h3>75 96 06 96</h3>
+                    <h5>61 06 96 06</h5>
+                </div>
+            </div>
+            <div class="right">
+                <h3>VIP</h3>
+                <div>Quarter</div>
+                <div>Date</div>
+                <div>Place</div>
+                <div>Autres</div>
+                <div class="qr-img">
+                    <img src="" alt="">
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'js/main.js' %}"></script>
     </body>
 </html>

@@ -2,17 +2,17 @@ from django.contrib import admin
 from .models import *
 
 class ProfileAdmin(admin.ModelAdmin):
-	list_display = "user", "avatar", "phone", "mobile", "date", "autres"
-	list_filter =  "user", "avatar", "phone", "mobile", "date", "autres"
-	ordering =  "user", "avatar", "phone", "mobile", "date", "autres"
+	list_display = "user", "avatar", "phone", "mobile", "ticket", "date", "autres"
+	list_filter =  "user", "avatar", "phone", "mobile", "ticket", "date", "autres"
+	ordering =  "user", "avatar", "phone", "mobile", "ticket", "date", "autres"
 class TicketAdmin(admin.ModelAdmin):
 	list_display = "name", "somme", "consommable", "autres"
 	list_filter = "name", "somme", "consommable", "autres"
 	ordering = "name", "somme", "consommable", "autres"
 class PaymentAdmin(admin.ModelAdmin):
-	list_display = "profile", "ticket", "date", "autres"
-	list_filter = "profile", "ticket", "date", "autres"
-	ordering = "profile", "ticket", "date", "autres"
+	list_display = "profile", "somme", "date", "autres"
+	list_filter = "profile", "somme", "date", "autres"
+	ordering = "profile", "somme", "date", "autres"
 class ProductAdmin(admin.ModelAdmin):
 	list_display = "name", "price"
 	list_filter ="name", "price"

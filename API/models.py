@@ -8,6 +8,9 @@ class Ticket(models.Model):
 	consommable = models.PositiveIntegerField(default=0)
 	autres = models.TextField(blank=True, null=True)
 
+	def __str__(self):
+		return self.name
+
 class Profile(models.Model):
 	user = models.OneToOneField(User, null=True, on_delete=models.SET_NULL)
 	avatar = models.ImageField(upload_to="profiles/")
@@ -17,8 +20,12 @@ class Profile(models.Model):
 	ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
 	autres = models.TextField(blank=True, null=True)
 
+	def __str__(self):
+		return f"{self.user.first_name} {self.user.last_name}"
+
 class Payment(models.Model):
 	profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+	somme = models.PositiveIntegerField(null=False, blank=False)
 	date = models.DateField(default=timezone.now)
 	autres = models.TextField(blank=True, null=True)
 
@@ -27,11 +34,20 @@ class Payment(models.Model):
 		ticket.consommable+=montant
 		ticket.save()
 
+	def __str__(self):
+		return f'{self.profile} : {self.somme}'
+
 class Product(models.Model):
 	name = models.CharField(max_length=20)
 	price = models.PositiveIntegerField(null=False, blank=False)
+
+	def __str__(self):
+		return f'{self.profile} : {self.name}'
 
 class Consommation(models.Model):
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 	profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 	when = models.DateTimeField(default=timezone.now)
+
+	def __str__(self):
+		return f'{self.profile} : {self.product}'

@@ -5,10 +5,12 @@ from django.contrib.auth import authenticate
 from django.contrib import messages
 
 from .forms import *
+from API.models import *
 
 class Home(LoginRequiredMixin, View):
 	template_name = "home.html"
 	def get(self, request):
+		clients = Profile.objects.all()
 		form = ProfileForm(request.FILES)
 		return render(request, self.template_name, locals())
 

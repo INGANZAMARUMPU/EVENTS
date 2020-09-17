@@ -1,0 +1,58 @@
+.ticket{
+	position: relative;
+	font-size: 0;
+	width: 10cm;
+	height: 5cm;
+	border: 2px solid #15a;
+	overflow: hidden;
+	margin-bottom: 5px;
+}
+.ticket .title{
+	height: 0.5cm;
+	font-weight: bold;
+	text-align: center;
+	background-color: #15a;
+	font-size: 14px;
+	color: white;
+}
+.bottom-infos{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 1.2cm;
+	width: 100%;
+	color: #15a;
+	text-align: center;
+	background-color: #15a;
+	color: white;
+}
+.right,.left{
+	position: relative;
+	display: inline-block;
+	height: 4.5cm;
+	width: 50%;
+	font-size: 14px;
+	overflow: hidden;
+}
+.right{
+	border-bottom: 0.5cm solid #15a;
+}
+.ticket .img-user img, .ticket .img-user{
+	height: 2cm;
+	width: 2cm;
+	margin: 5px auto;
+}
+.qr-img{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 2cm;
+	height: 2cm;
+	border: 1px solid black;
+	margin: 5px;
+	z-index: 3;
+}
+.qr-img img{
+	width: 2cm;
+	height: 2cm;
+}
