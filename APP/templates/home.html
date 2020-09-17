@@ -7,7 +7,6 @@
         <title>Event Managment</title>
         <link rel="stylesheet" href="{% static "css/general.css" %}">
         <link rel="stylesheet" href="{% static "css/home.css" %}">
-        <link rel="stylesheet" href="{% static "css/card.css" %}">
     </head>
     <body>
         <div class="container">
@@ -21,7 +20,7 @@
                 </ul>
             </div>
             <div class="component profile">
-                <form action="{% url 'home' %}" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
+                <form action="." method="POST" accept-charset="utf-8" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="item">
@@ -34,7 +33,12 @@
                     <div style="display: flow-root;">
                         <div style="float:right;">
                             <button type="reset">reset</button>
-                            <button type="submit" submit>envoyer</button>
+                            <button type="submit" submit>{% if delete %}
+                                    supprimer
+                                {% else %}
+                                    envoyer
+                                {% endif %}
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -45,114 +49,65 @@
                 </div>
                 <div class="recycler">
                 {% for client in clients %}
-                <div class="user-card">
+                <div class="user-card" qr-data="{{ client.qr }}">
                     <div class="img-user">
-                        <img src="{{ client.avatar.url }}" alt="photo de profile" width="30px">
+                        <img 
+                        src='{% if client.avatar %}{{ client.avatar.url }}
+                        {% else %}{% static "img/ic_user.png" %}{% endif %}'
+                        alt="photo de profile" width="30px">
                     </div>
-                    <div class="user-info">
-                        tel: {{ client.user.mobile }}
-                    </div>
-                    <div class="user-info">
+                    <div class="user-info firstname">
                         {{ client.user.first_name }}
                     </div>
-                    <div class="user-info">
+                    <div class="user-info lastname">
                         {{ client.user.last_name }}
                     </div>
-                    <div class="user-info">
-                        {{ client.user.tickets }}
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.date }}
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.tickets }}
-                    </div>
-                    <div class="user-hover">
-                        <a href="#" class="commands-btn">Impr</a>
-                        <a href="#" class="commands-btn">Mod</a>
-                        <a href="#" class="commands-btn">Suppr</a>
-                    </div>
-                </div>
-                <div class="user-card">
-                    <div class="img-user">
-                        <img src="{{ client.avatar.url }}" alt="photo de profile" width="30px">
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.first_name }}
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.last_name }}
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.tickets }}
-                    </div>
-                    <div class="user-info">
+                    <div class="user-info tickettype">
                         {{ client.ticket }}
                     </div>
-                    <div class="user-hover">
-                        <div class="user-info">{{ client.mobile|default:"00 000 000" }}</div>
-                        <div class="user-info">{{ client.date }}</div>
-                        <a href="#" class="commands-btn">Imprimer</a>
-                        <a href="#" class="commands-btn">Modifier</a>
-                        <a href="#" class="commands-btn">Supprimer</a>
-                    </div>
-                </div>
-                <div class="user-card">
-                    <div class="img-user">
-                        <img src="{{ client.avatar.url }}" alt="photo de profile" width="30px">
-                    </div>
-                    <div class="user-info">
-                        tel: {{ client.user.mobile }}
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.first_name }}
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.last_name }}
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.tickets }}
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.date }}
-                    </div>
-                    <div class="user-info">
-                        {{ client.user.tickets }}
+                    <div class="hidden-infos">
+                        <div class="user-info quarter">{{ quarter|default:"Gihosha" }}</div>
+                        <div class="user-info place">{{ place|default:"Gihosha" }}</div>
                     </div>
                     <div class="user-hover">
-                        <a href="#" class="commands-btn">Impr</a>
-                        <a href="#" class="commands-btn">Mod</a>
-                        <a href="#" class="commands-btn">Suppr</a>
+                        <div class="user-info phone">{{ client.phone|default:"00 000 000" }}</div>
+                        <div class="user-info mobile">{{ client.mobile|default:"00 000 000" }}</div>
+                        <div class="user-info date">{{ client.date }}</div>
+                        <a href="#" class="commands-btn btn-print" onclick="generateTicket(event,'{% static 'css/card.css' %}')">
+                            Imprimer
+                        </a>
+                        <a href="{% url 'editprofile' client.id %}" class="commands-btn">Modifier</a>
+                        <a href="{% url 'deleteprofile' client.id %}" class="commands-btn">Supprimer</a>
                     </div>
                 </div>
                 {% endfor %}
                 </div>
             </div>
         </div>
-        <div class="ticket">
+        <div id="printable">
+        <div class="ticket" id="#ticket">
             <div class="title">Crazy Event</div>
             <div class="left">
                 <div class="img-user">
-                    <img src="" alt="">
+                    <img avatar src="" alt="">
                 </div>
-                <h3>Jonathan</h3>
-                <h3>Nkurunziza</h3>
+                <h3 firstname>Prenom</h3>
+                <h3 lastname>Nom</h3>
                 <div class="bottom-infos">
-                    <h3>75 96 06 96</h3>
-                    <h5>61 06 96 06</h5>
+                    <h3 phone>00 000 000</h3>
+                    <h5 mobile>00 000 000</h5>
                 </div>
             </div>
             <div class="right">
-                <h3>VIP</h3>
-                <div>Quarter</div>
-                <div>Date</div>
-                <div>Place</div>
-                <div>Autres</div>
-                <div class="qr-img">
-                    <img src="" alt="">
-                </div>
+                <h3 ticket>VIP</h3>
+                <div quarter>Quarter</div>
+                <div date>Date</div>
+                <div place>Place</div>
+                <div qrimage></div>
             </div>
         </div>
+        </div>
+        <script src="{% static 'js/qrcode.min.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
     </body>
 </html>

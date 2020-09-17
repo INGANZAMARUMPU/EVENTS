@@ -1,5 +1,5 @@
 from django import forms
-from API.models import Profile
+from API.models import Profile, Ticket
 
 class ConnexionForm(forms.Form):
 	username = forms.CharField(
@@ -15,28 +15,36 @@ class ConnexionForm(forms.Form):
 	)
 
 class ProfileForm(forms.ModelForm):
-	firstname = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Izina '}),
+	lastname = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Izina '}),
 		label='izina')
-	lastname = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Itazirano '}),
+	firstname = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Itazirano '}),
 		label='Itazirano')
 	phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Telephone '}),
 		label='Telephone')
 	mobile = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Téléphone 2'}),
-		label='Tél. de bureau')
+		label='Tél. de bureau', required=False)
+	ticket = forms.ModelChoiceField(widget = forms.Select(),label = 'Tiquet',
+		queryset = Ticket.objects.all())
 	autres = forms.CharField(widget=forms.Textarea(
 			attrs={'placeholder':'Autres informations', 'rows':'3'}),
-		label='Itazirano')
-	avatar = forms.ImageField( widget=forms.FileInput(),label='photo de profile')
+		label='Itazirano', required=False)
+	avatar = forms.ImageField( widget=forms.FileInput(),label='photo de profile',required=False)
 	
 	def __init__(self, *args, **kwargs):
-		# user = kwargs.get('user')
-		# if(user) :
-		# 	kwargs.pop('user')
+		profile = kwargs.get('instance')
 		super(ProfileForm, self).__init__(*args, **kwargs)
+		if(profile) :
+			self.fields["lastname"].initial = profile.user.last_name
+			self.fields["firstname"].initial = profile.user.first_name
+			self.fields["phone"].initial = profile.phone
+			self.fields["mobile"].initial = profile.mobile
+			self.fields["ticket"].initial = profile.ticket
+			self.fields["autres"].initial = profile.autres
+			self.fields["avatar"].initial = profile.avatar
 	
 	class Meta:
 		model = Profile
-		fields = ('firstname', 'lastname', 'phone', 'mobile', 'avatar', 'autres')
+		fields = ('firstname', 'lastname', 'phone', 'mobile', 'ticket', 'avatar', 'autres')
 
 
 	# def clean_CNI(self, *arg,**kwargs):

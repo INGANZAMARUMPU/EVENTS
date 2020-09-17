@@ -5,6 +5,8 @@ from .views import *
 
 urlpatterns = [
 	path("", Home.as_view(), name="home"),
+	path("edit/<int:profile_id>/", EditProfile.as_view(), name="editprofile"),
+	path("delete/<int:profile_id>/", DeleteProfile.as_view(), name="deleteprofile"),
 	path("login/", Connexion.as_view(), name="login"),
 	path("logout/", deconnexion, name="logout"),
 ]

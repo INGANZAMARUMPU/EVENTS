@@ -1,3 +1,26 @@
+@charset "UTF-8";
+:root {
+	--font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+*{
+	box-sizing: border-box;
+	text-decoration: none;
+  	margin: 0;
+  	padding: 0;	
+}
+html {
+	font-family: sans-serif;
+	line-height: 1.15;
+	margin: 0;
+	padding: 0;
+}
+body,#body {
+	background: #fff;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
 .ticket{
 	position: relative;
 	font-size: 0;
@@ -34,25 +57,34 @@
 	font-size: 14px;
 	overflow: hidden;
 }
+.left h3{
+	padding-left: 3px;
+}
 .right{
 	border-bottom: 0.5cm solid #15a;
 }
-.ticket .img-user img, .ticket .img-user{
+.ticket .img-user{
 	height: 2cm;
 	width: 2cm;
-	margin: 5px auto;
+	border-radius: 50%;
+	margin: auto;
+	margin-top: 3px;
+	overflow: hidden;
 }
-.qr-img{
+.ticket .img-user img{
+	width: 2cm;
+	margin: auto;
+}
+[qrimage]{
 	position: absolute;
 	bottom: 0;
 	right: 0;
 	width: 2cm;
 	height: 2cm;
-	border: 1px solid black;
 	margin: 5px;
 	z-index: 3;
 }
-.qr-img img{
+[qrimage] img{
 	width: 2cm;
 	height: 2cm;
 }
