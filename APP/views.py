@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
 from .forms import *

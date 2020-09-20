@@ -24,3 +24,6 @@ body,#body {
 form label{
 	display: block;
 }
+.recycler {
+    display: inline-flex;
+}
