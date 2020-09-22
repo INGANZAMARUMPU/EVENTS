@@ -1,6 +1,8 @@
 from .models import *
 from rest_framework import serializers
 
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 class ProfileSerializer(serializers.ModelSerializer):
 	fullname = serializers.SerializerMethodField()
 
@@ -31,11 +33,12 @@ class ConsommationSerializer(serializers.ModelSerializer):
 		model = Consommation
 		fields = "__all__"
 
-# class DetailCommandeSerializer(serializers.ModelSerializer):
-# 	nom = serializers.SerializerMethodField()
-# 	def get_nom(self, obj):
-# 		return obj.recette.nom
-
-# 	class Meta:
-# 		model = DetailCommande
-# 		fields = "id", "quantite", "somme", "pret", "commande", "recette", 'nom', 'obligations'
+class TokenPairSerializer(TokenObtainPairSerializer):
+	
+	@classmethod
+	def get_token(cls, user):
+		token = super(TokenPairSerializer, cls).get_token(user)
+		token['phone'] = user.profile.phone
+		token['mobile'] = user.profile.mobile
+		token['services'] = [group.name for group in user.groups.all()]
+		return token
