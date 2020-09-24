@@ -19,6 +19,13 @@ class ProfileViewset(viewsets.ModelViewSet):
 	queryset = Profile.objects.all()
 	serializer_class = ProfileSerializer
 
+	@action(['GET'], False,r'scanqr/(?P<qr>[0-9a-zA-Z]+)', "scanqr")
+	def scanQr(self, request, qr):
+		profile = Profile.objects.filter(qr=qr)
+		serializer = ProfileSerializer(profile, many=True)
+		response = serializer.data
+		return Response(response)
+
 class TicketViewset(viewsets.ModelViewSet):
 	authentication_classes = [SessionAuthentication, JWTAuthentication]
 	permission_classes = [IsAuthenticated]

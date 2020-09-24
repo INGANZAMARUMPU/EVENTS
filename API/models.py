@@ -5,8 +5,8 @@ import hashlib
 
 class Ticket(models.Model):
 	name = models.CharField(max_length=20)
-	somme = models.PositiveIntegerField(null=False, blank=False)
-	consommable = models.PositiveIntegerField(default=0)
+	somme = models.FloatField(null=False, blank=False)
+	consommable = models.FloatField(default=0)
 	autres = models.TextField(blank=True, null=True)
 
 	def __str__(self):

@@ -11,7 +11,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Profile
-		fields = "__all__"
+		fields = "fullname", "avatar", "phone", "mobile", "date", "ticket", "autres", "qr"
+		depth = 1;
 
 class TicketSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -38,7 +39,11 @@ class TokenPairSerializer(TokenObtainPairSerializer):
 	@classmethod
 	def get_token(cls, user):
 		token = super(TokenPairSerializer, cls).get_token(user)
-		token['phone'] = user.profile.phone
-		token['mobile'] = user.profile.mobile
-		token['services'] = [group.name for group in user.groups.all()]
+		try:
+			token['username'] = user.username
+			token['phone'] = user.profile.phone
+			token['mobile'] = user.profile.mobile
+			token['services'] = [group.name for group in user.groups.all()]
+		except :
+			print
 		return token
