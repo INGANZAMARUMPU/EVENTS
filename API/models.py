@@ -3,14 +3,17 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 import hashlib
 
+class TicketType(models.Model):
+	name = models.CharField(max_length=20, unique=True)
+	price = models.FloatField(null=False, blank=False)
+
 class Ticket(models.Model):
-	name = models.CharField(max_length=20)
-	somme = models.FloatField(null=False, blank=False)
+	ticket_type = models.ForeignKey(TicketType, verbose_name='type', on_delete=models.CASCADE)
 	consommable = models.FloatField(default=0)
 	autres = models.TextField(blank=True, null=True)
 
 	def __str__(self):
-		return self.name
+		return self.ticket_type.name
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -18,7 +21,7 @@ class Profile(models.Model):
 	phone = models.CharField(max_length=16, unique=True, blank=False)
 	mobile = models.CharField(max_length=16, blank=True, null=True)
 	date = models.DateField(default=timezone.now)
-	ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+	ticket = models.OneToOneField(Ticket, on_delete=models.CASCADE)
 	autres = models.TextField(blank=True, null=True)
 	qr = models.CharField(max_length=64, null=False, editable=False)
 
@@ -42,9 +45,10 @@ class Payment(models.Model):
 	date = models.DateField(default=timezone.now)
 	autres = models.TextField(blank=True, null=True)
 
-	def recharge(self, montant:int):
-		ticket = self.ticket
-		ticket.consommable+=montant
+	def save(self, *args, **kwargs):
+		super(Payment, self).save(*args, **kwargs)
+		ticket = self.profile.ticket
+		ticket.consommable += self.somme
 		ticket.save()
 
 	def __str__(self):
@@ -55,12 +59,20 @@ class Product(models.Model):
 	price = models.PositiveIntegerField(null=False, blank=False)
 
 	def __str__(self):
-		return f'{self.profile} : {self.name}'
+		return f'{self.name} : {self.price}'
 
 class Consommation(models.Model):
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 	profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+	quantity = models.PositiveIntegerField(null=False, blank=False)
 	when = models.DateTimeField(default=timezone.now)
+
+	def save(self, *args, **kwargs):
+		ticket = self.profile.ticket
+		ticket.consommable-=self.product.price*self.quantity
+		if(ticket.consommable>0):
+			ticket.save()
+			super(Consommation, self).save(*args, **kwargs)
 
 	def __str__(self):
 		return f'{self.profile} : {self.product}'

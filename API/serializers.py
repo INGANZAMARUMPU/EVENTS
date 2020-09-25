@@ -11,13 +11,22 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Profile
-		fields = "fullname", "avatar", "phone", "mobile", "date", "ticket", "autres", "qr"
+		fields = "id", "fullname", "avatar", "phone", "mobile", "date", "ticket", "autres", "qr"
 		depth = 1;
 
 class TicketSerializer(serializers.ModelSerializer):
+	name = serializers.SerializerMethodField()
+	price = serializers.SerializerMethodField()
+
+	def get_name(self, obj):
+		return f"{obj.ticket_type.name}"
+
+	def get_price(self, obj):
+		return f"{obj.ticket_type.price}"
+
 	class Meta:
 		model = Ticket
-		fields = "__all__"
+		fields = "name", "price", "consommable", "autres"
 
 class PaymentSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -30,6 +39,11 @@ class ProductSerializer(serializers.ModelSerializer):
 		fields = "__all__"
 
 class ConsommationSerializer(serializers.ModelSerializer):
+	total = serializers.SerializerMethodField()
+
+	def get_total(self, obj):
+		return obj.quantity*obj.product.price
+
 	class Meta:
 		model = Consommation
 		fields = "__all__"
