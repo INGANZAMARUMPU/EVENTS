@@ -1,21 +1,31 @@
+import re
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from os import popen
 
 from .forms import *
 from API.models import *
 
+def getIps():
+	ip_adresses = re.findall(r"\b(?:(?!255)[0-9]{1,3}\.){3}[0-9]{1,3}\b", popen("ipconfig").read())
+	if not ip_adresses:
+		ip_adresses = re.findall(r"\b(?:(?!255)[0-9]{1,3}\.){3}[0-9]{1,3}\b", popen("ifconfig").read())
+	return ip_adresses;
+
 class Home(LoginRequiredMixin, View):
 	template_name = "home.html"
 	def get(self, request):
-		clients = Profile.objects.all()
+		ip_adresses = getIps()
+		clients = Profile.objects.all()[:10]
 		form = ProfileForm()
 		return render(request, self.template_name, locals())
 
 	def post(self, request):
 		form = ProfileForm(request.POST, request.POST, request.FILES)
+		ip_adresses = getIps()
 		if form.is_valid():
 			profile = form.save(commit=False)
 			username = form.cleaned_data['phone']
@@ -27,7 +37,7 @@ class Home(LoginRequiredMixin, View):
 			user.save()
 			profile.user = user
 			profile.save()
-		clients = Profile.objects.all()
+		clients = Profile.objects.all()[:10]
 		return render(request, self.template_name, locals())
 
 class EditProfile(LoginRequiredMixin, View):

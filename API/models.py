@@ -39,6 +39,9 @@ class Profile(models.Model):
 		self.qr = hashlib.sha224(infos.encode()).hexdigest()
 		super(Profile, self).save(*args, **kwargs)
 
+	class Meta:
+		ordering = "-date", 
+
 class Payment(models.Model):
 	profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 	somme = models.PositiveIntegerField(null=False, blank=False)

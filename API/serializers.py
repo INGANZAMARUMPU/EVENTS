@@ -3,17 +3,6 @@ from rest_framework import serializers
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-class ProfileSerializer(serializers.ModelSerializer):
-	fullname = serializers.SerializerMethodField()
-
-	def get_fullname(self, obj):
-		return f"{obj.user.first_name} {obj.user.last_name}"
-
-	class Meta:
-		model = Profile
-		fields = "id", "fullname", "avatar", "phone", "mobile", "date", "ticket", "autres", "qr"
-		depth = 1;
-
 class TicketSerializer(serializers.ModelSerializer):
 	name = serializers.SerializerMethodField()
 	price = serializers.SerializerMethodField()
@@ -26,7 +15,19 @@ class TicketSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Ticket
-		fields = "name", "price", "consommable", "autres"
+		fields = "id", "name", "price", "consommable", "autres"
+
+class ProfileSerializer(serializers.ModelSerializer):
+	fullname = serializers.SerializerMethodField()
+	ticket = TicketSerializer(many=False, read_only=True)
+
+	def get_fullname(self, obj):
+		return f"{obj.user.first_name} {obj.user.last_name}"
+
+	class Meta:
+		model = Profile
+		fields = "id", "fullname", "avatar", "phone", "mobile", "date", "ticket", "autres", "qr"
+		depth = 1
 
 class PaymentSerializer(serializers.ModelSerializer):
 	class Meta:

@@ -13,10 +13,10 @@
             <div class="navbar">
                 <ul>
                     <li><a href="/">Acceuil</a></li>
-                    <li><a href="/">Ticket</a></li>
-                    <li><a href="/">Payements</a></li>
-                    <li><a href="/">Produits</a></li>
-                    <li><a href="/">Consomations</a></li>
+                    <li><a href="/admin/API/ticket/">Ticket</a></li>
+                    <li><a href="/admin/API/payment/">Payements</a></li>
+                    <li><a href="/admin/API/product/">Produits</a></li>
+                    <li><a href="/admin/API/consommation/">Consomations</a></li>
                 </ul>
             </div>
             <div class="component profile">
@@ -82,6 +82,12 @@
                 </div>
                 {% endfor %}
                 </div>
+            </div>
+            <div class="component">
+                <span>active IP Adresses</span>
+                {% for ip in ip_adresses %}
+                    <strong>[{{ ip }}] </strong>
+                {% endfor %}
             </div>
         </div>
         <div id="printable">
