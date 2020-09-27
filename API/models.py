@@ -3,14 +3,33 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 import hashlib
 
+class Event(models.Model):
+	name = models.CharField(max_length=20)
+	place = models.CharField(max_length=32)
+	date = models.DateField(default=timezone.now)
+	logo = models.ImageField(upload_to="logo/")
+
+	def save(self, *args, **kwargs):
+		if not self.pk and MyModel.objects.exists():
+			raise ValueError("Only One Event is permitted.")
+		super().save(*args, **kwargs)
+
 class TicketType(models.Model):
 	name = models.CharField(max_length=20, unique=True)
 	price = models.FloatField(null=False, blank=False)
+	consommable = models.FloatField(default=0)
+
+	def __str__(self):
+		return self.name
 
 class Ticket(models.Model):
 	ticket_type = models.ForeignKey(TicketType, verbose_name='type', on_delete=models.CASCADE)
 	consommable = models.FloatField(default=0)
 	autres = models.TextField(blank=True, null=True)
+
+	def save(self, *args, **kwargs):
+		if not(self.pk): self.consommable = self.ticket_type.consommable
+		super().save(*args, **kwargs)
 
 	def __str__(self):
 		return self.ticket_type.name
@@ -19,7 +38,7 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	avatar = models.ImageField(upload_to="profiles/")
 	phone = models.CharField(max_length=16, unique=True, blank=False)
-	mobile = models.CharField(max_length=16, blank=True, null=True)
+	email = models.CharField(max_length=64, blank=True, null=True)
 	date = models.DateField(default=timezone.now)
 	ticket = models.OneToOneField(Ticket, on_delete=models.CASCADE)
 	autres = models.TextField(blank=True, null=True)

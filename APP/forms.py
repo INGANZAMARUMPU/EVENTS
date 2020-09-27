@@ -1,5 +1,5 @@
 from django import forms
-from API.models import Profile, Ticket
+from API.models import *
 
 class ConnexionForm(forms.Form):
 	username = forms.CharField(
@@ -15,20 +15,21 @@ class ConnexionForm(forms.Form):
 	)
 
 class ProfileForm(forms.ModelForm):
-	lastname = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Izina '}),
-		label='izina')
-	firstname = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Itazirano '}),
+	lastname = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Nom '}),
+		label='Izina')
+	firstname = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Prenom '}),
 		label='Itazirano')
-	phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Telephone '}),
+	phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'ex: 75 96 06 96 '}),
 		label='Telephone')
-	mobile = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Téléphone 2'}),
-		label='Tél. de bureau', required=False)
-	ticket = forms.ModelChoiceField(widget = forms.Select(),label = 'Tiquet',
-		queryset = Ticket.objects.all())
+	email = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'ex: username@gmail.com'}),
+		label='Adresse e-mail', required=False)
+	ticket_type = forms.ModelChoiceField(widget = forms.Select(),
+		label = 'Type de ticket',
+		queryset = TicketType.objects.all())
+	avatar = forms.ImageField( widget=forms.FileInput(),label='photo de profile',required=False)
 	autres = forms.CharField(widget=forms.Textarea(
 			attrs={'placeholder':'Autres informations', 'rows':'3'}),
-		label='Itazirano', required=False)
-	avatar = forms.ImageField( widget=forms.FileInput(),label='photo de profile',required=False)
+		label='Autres informations', required=False)
 	
 	def __init__(self, *args, **kwargs):
 		profile = kwargs.get('instance')
@@ -37,14 +38,14 @@ class ProfileForm(forms.ModelForm):
 			self.fields["lastname"].initial = profile.user.last_name
 			self.fields["firstname"].initial = profile.user.first_name
 			self.fields["phone"].initial = profile.phone
-			self.fields["mobile"].initial = profile.mobile
-			self.fields["ticket"].initial = profile.ticket
+			self.fields["email"].initial = profile.email
+			self.fields["ticket_type"].initial = profile.ticket.ticket_type
 			self.fields["autres"].initial = profile.autres
 			self.fields["avatar"].initial = profile.avatar
 	
 	class Meta:
 		model = Profile
-		fields = ('firstname', 'lastname', 'phone', 'mobile', 'ticket', 'avatar', 'autres')
+		fields = ('firstname', 'lastname', 'phone', 'email', 'avatar', 'autres')
 
 
 	# def clean_CNI(self, *arg,**kwargs):

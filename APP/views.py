@@ -31,12 +31,21 @@ class Home(LoginRequiredMixin, View):
 			username = form.cleaned_data['phone']
 			firstname = form.cleaned_data['firstname']
 			lastname = form.cleaned_data['lastname']
+			ticket_type = form.cleaned_data['ticket_type']
 			password = "no password"
+
 			user = User.objects.create_user(username=username,password=password)
 			user.first_name, user.last_name = firstname, lastname
 			user.save()
+
+			ticket_type = TicketType.objects.get(name=ticket_type)
+			ticket = Ticket(ticket_type=ticket_type)
+			ticket.save()
+
 			profile.user = user
+			profile.ticket = ticket
 			profile.save()
+			return redirect("/")
 		clients = Profile.objects.all()[:10]
 		return render(request, self.template_name, locals())
 
@@ -53,16 +62,26 @@ class EditProfile(LoginRequiredMixin, View):
 		form = ProfileForm(request.POST, request.FILES, instance=profile)
 		
 		if form.is_valid():
-			user = profile.user
-			user.username = form.cleaned_data['phone']
-			user.first_name = form.cleaned_data['firstname']
-			user.last_name = form.cleaned_data['lastname']
-			user.save()
+			ticket = profile.ticket
+			ticket_type = form.cleaned_data['ticket_type']
+			if ticket.consommable == ticket.ticket_type.consommable:
+				if ticket.ticket_type != ticket_type:
+					ticket.ticket_type = ticket_type
+					ticket.consommable = ticket_type.consommable
+					ticket.save()
 
-			new_profile = form.save(commit=False)
-			profile = new_profile;
-			profile.user = user
-			profile.save()
+				user = profile.user
+				user.username = form.cleaned_data['phone']
+				user.first_name = form.cleaned_data['firstname']
+				user.last_name = form.cleaned_data['lastname']
+				user.save()
+
+				new_profile = form.save(commit=False)
+				profile = new_profile;
+				profile.user = user
+				profile.save()
+			else:
+				print("ticket déjà utilisé. il ne peut plus être modifié!")
 			return redirect("home")
 
 		clients = Profile.objects.all()
