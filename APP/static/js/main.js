@@ -38,10 +38,7 @@ function templateTicket(infos){
 
 function generateTicket(event, ...css){
 	user_card = closest(event.target, '.user-card', '.component');
-	fillTicket(user_card, ...css);
-}
 
-function fillTicket(user_card, ...css){
 	var userSelector = function(str){
 		return user_card.querySelector(str); 
 	}
@@ -62,12 +59,44 @@ function fillTicket(user_card, ...css){
 		ticket_date: userSelector('.ticket-date').textContent,
 		qr_text: user_card.getAttribute('qr-data'),
 	}
+	printTicket(templateTicket(infos), ...css);
+}
+function generateTickets(...css){
+	var user_cards = document.querySelectorAll(".user-card");
+	div = `<div style="display: inline-flex;">`;
+	user_cards.forEach(function(user_card){
+		var userSelector = function(str){
+			return user_card.querySelector(str); 
+		}
+		var ticketSelector = function(str){
+			return ticket.querySelector(str); 
+		}
+		var infos = {
+			event_name: "PRIVATE PARTY",
+			user_img: userSelector('.img-user img').getAttribute('src'),
+			firstname: userSelector('.firstname').textContent,
+			lastname: userSelector('.lastname').textContent,
+			telephone: userSelector('.phone').textContent,
+			email: userSelector('.email').textContent,
+			ticket_type: userSelector('.tickettype').textContent,
+			quarter: userSelector('.quarter').textContent,
+			event_date: userSelector('.date').textContent,
+			event_place: userSelector('.place').textContent,
+			ticket_date: userSelector('.ticket-date').textContent,
+			qr_text: user_card.getAttribute('qr-data'),
+		}
+		div += templateTicket(infos);
+	})
+	div += "</div>"
+	printTicket(div, ...css);
+}
 
+function printTicket(text, ...css){
 	var a = window.open('', '', 'height=500, width=1000'); 
 	for(let style of css){
 		a.document.write(`<link rel="stylesheet" href="${style}" type="text/css" />`);
 	}
-	a.document.write(templateTicket(infos)); 
+	a.document.write(text);  
 	a.document.close(); 
 	setTimeout(function(){
 		a.print();

@@ -28,7 +28,7 @@ body,#body {
 	height: 5cm;
 	border: 2px solid #15a;
 	overflow: hidden;
-	margin-bottom: 5px;
+	margin: 2px;
 }
 .ticket .title{
 	height: 0.5cm;
