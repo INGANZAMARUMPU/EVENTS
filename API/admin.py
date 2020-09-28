@@ -5,6 +5,7 @@ class ProfileAdmin(admin.ModelAdmin):
 	list_display = "user", "avatar", "phone", "email", "ticket", "date", "autres"
 	list_filter =  "user", "avatar", "phone", "email", "ticket", "date", "autres"
 	ordering =  "user", "avatar", "phone", "email", "ticket", "date", "autres"
+	readonly_fields = ['ticket']
 
 class TicketAdmin(admin.ModelAdmin):
 	list_display = "ticket_type", "consommable", "autres"

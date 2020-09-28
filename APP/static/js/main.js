@@ -7,12 +7,34 @@ function closest(el, selector, stopSelector) {
   return closest(el.parentNode, selector, stopSelector);
 }
 
-// btns_print.forEach(function(btn, i){
-// 	btn.addEventListener('click', function (){
-// 		user_card = closest(btn, '.user-card', '.component');
-// 		fillTicket(user_card);
-// 	});
-// });
+function templateTicket(infos){
+	var qr = QRCode.generatePNG(infos.qr_text, {
+	    ecclevel : 'L'
+	});
+	return`
+		<div class="ticket" id="#ticket">
+		    <div class="title">${infos.event_name}</div>
+		    <div class="left">
+		        <div class="img-user">
+		            <img avatar src="${infos.user_img}" alt="">
+		        </div>
+		        <h3 firstname>${infos.firstname}</h3>
+		        <h3 lastname>${infos.lastname}</h3>
+		        <div class="bottom-infos">
+		            <h3 phone>${infos.telephone}</h3>
+		            <h5 email>${infos.email}</h5>
+		        </div>
+		    </div>
+		    <div class="right">
+		        <h3 ticket>${infos.ticket_type}</h3>
+		        <div quarter>${infos.quarter}</div>
+		        <div date>${infos.event_date}</div>
+		        <div place>${infos.event_place}</div>
+		        <div qrimage><img src="${qr}"/></div>
+		    </div>
+		</div>
+		`
+}
 
 function generateTicket(event, ...css){
 	user_card = closest(event.target, '.user-card', '.component');
@@ -26,30 +48,28 @@ function fillTicket(user_card, ...css){
 	var ticketSelector = function(str){
 		return ticket.querySelector(str); 
 	}
-	ticketSelector('[avatar]').setAttribute('src', userSelector('.img-user img').getAttribute('src'));
-	ticketSelector('[firstname]').textContent = userSelector('.firstname').textContent;
-	ticketSelector('[lastname]').textContent = userSelector('.lastname').textContent;
-	ticketSelector('[mobile]').textContent = userSelector('.mobile').textContent;
-	ticketSelector('[phone]').textContent = userSelector('.phone').textContent;
-	ticketSelector('[ticket]').textContent = userSelector('.tickettype').textContent;
-	ticketSelector('[quarter]').textContent = userSelector('.quarter').textContent;
-	ticketSelector('[date]').textContent = userSelector('.date').textContent;
-	ticketSelector('[place]').textContent = userSelector('.place').textContent;
-	ticketSelector('[date]').textContent = userSelector('.date').textContent;
-	ticketSelector('[qrimage]').innerHTML = '';
-	new QRCode(ticketSelector('[qrimage]'), {
-		text: user_card.getAttribute('qr-data'),
-		correctLevel: QRCode.CorrectLevel.L
-	});
+	var infos = {
+		event_name: "PRIVATE PARTY",
+		user_img: userSelector('.img-user img').getAttribute('src'),
+		firstname: userSelector('.firstname').textContent,
+		lastname: userSelector('.lastname').textContent,
+		telephone: userSelector('.phone').textContent,
+		email: userSelector('.email').textContent,
+		ticket_type: userSelector('.tickettype').textContent,
+		quarter: userSelector('.quarter').textContent,
+		event_date: userSelector('.date').textContent,
+		event_place: userSelector('.place').textContent,
+		ticket_date: userSelector('.ticket-date').textContent,
+		qr_text: user_card.getAttribute('qr-data'),
+	}
+
 	var a = window.open('', '', 'height=500, width=1000'); 
 	for(let style of css){
 		a.document.write(`<link rel="stylesheet" href="${style}" type="text/css" />`);
 	}
+	a.document.write(templateTicket(infos)); 
+	a.document.close(); 
 	setTimeout(function(){
-		printable_text = document.getElementById("printable").innerHTML;
-		a.document.write(printable_text); 
-		a.document.close(); 
 		a.print();
-		a.close();
-	}, 1000);
+	}, 100);
 }

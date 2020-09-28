@@ -68,10 +68,11 @@
                     <div class="hidden-infos">
                         <div class="user-info quarter">{{ quarter|default:"Gihosha" }}</div>
                         <div class="user-info place">{{ place|default:"Gihosha" }}</div>
+                        <div class="user-info ticket-date">{{ date }}</div>
                     </div>
                     <div class="user-hover">
                         <div class="user-info phone">{{ client.phone|default:"00 000 000" }}</div>
-                        <div class="user-info mobile">{{ client.mobile|default:"00 000 000" }}</div>
+                        <div class="user-info email">{{ client.email|default:"no e-mail" }}</div>
                         <div class="user-info date">{{ client.date }}</div>
                         <a href="#" class="commands-btn btn-print" onclick="generateTicket(event,'{% static 'css/card.css' %}')">
                             Imprimer
@@ -90,30 +91,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div id="printable">
-        <div class="ticket" id="#ticket">
-            <div class="title">Crazy Event</div>
-            <div class="left">
-                <div class="img-user">
-                    <img avatar src="" alt="">
-                </div>
-                <h3 firstname>Prenom</h3>
-                <h3 lastname>Nom</h3>
-                <div class="bottom-infos">
-                    <h3 phone>00 000 000</h3>
-                    <h5 mobile>00 000 000</h5>
-                </div>
-            </div>
-            <div class="right">
-                <h3 ticket>VIP</h3>
-                <div quarter>Quarter</div>
-                <div date>Date</div>
-                <div place>Place</div>
-                <div qrimage></div>
-            </div>
-        </div>
-        </div>
-        <script src="{% static 'js/qrcode.min.js' %}"></script>
+        <script src="{% static 'js/qrjs2.min.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
     </body>
 </html>
