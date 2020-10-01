@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import *
 
 class ProfileAdmin(admin.ModelAdmin):
-	list_display = "user", "avatar", "phone", "email", "ticket", "date", "autres"
-	list_filter =  "user", "avatar", "phone", "email", "ticket", "date", "autres"
-	ordering =  "user", "avatar", "phone", "email", "ticket", "date", "autres"
+	list_display = "user", "avatar", "phone", "ticket", "date", "autres"
+	list_filter =  "user", "avatar", "phone", "ticket", "date", "autres"
+	ordering =  "user", "avatar", "phone", "ticket", "date", "autres"
 	readonly_fields = ['ticket']
 
 class TicketAdmin(admin.ModelAdmin):

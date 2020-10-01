@@ -31,11 +31,13 @@ class Home(LoginRequiredMixin, View):
 			username = form.cleaned_data['phone']
 			firstname = form.cleaned_data['firstname']
 			lastname = form.cleaned_data['lastname']
+			lastname = form.cleaned_data['email']
 			ticket_type = form.cleaned_data['ticket_type']
 			password = "no password"
 
 			user = User.objects.create_user(username=username,password=password)
 			user.first_name, user.last_name = firstname, lastname
+			user.email = email
 			user.save()
 
 			ticket_type = TicketType.objects.get(name=ticket_type)

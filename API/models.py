@@ -38,7 +38,6 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	avatar = models.ImageField(upload_to="profiles/")
 	phone = models.CharField(max_length=16, unique=True, blank=False)
-	email = models.CharField(max_length=64, blank=True, null=True)
 	date = models.DateField(default=timezone.now)
 	ticket = models.OneToOneField(Ticket, on_delete=models.CASCADE)
 	autres = models.TextField(blank=True, null=True)

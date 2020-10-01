@@ -19,14 +19,18 @@ class TicketSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
 	fullname = serializers.SerializerMethodField()
+	email = serializers.SerializerMethodField()
 	ticket = TicketSerializer(many=False, read_only=True)
 
 	def get_fullname(self, obj):
 		return f"{obj.user.first_name} {obj.user.last_name}"
 
+	def get_email(self, obj):
+		return f"{obj.user.email}"
+
 	class Meta:
 		model = Profile
-		fields = "id", "fullname", "avatar", "phone", "mobile", "date", "ticket", "autres", "qr"
+		fields = "id", "fullname", "avatar", "phone", "email", "date", "ticket", "autres", "qr"
 		depth = 1
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -54,11 +58,11 @@ class TokenPairSerializer(TokenObtainPairSerializer):
 	@classmethod
 	def get_token(cls, user):
 		token = super(TokenPairSerializer, cls).get_token(user)
+		token['services'] = [group.name for group in user.groups.all()]
 		try:
 			token['username'] = user.username
 			token['phone'] = user.profile.phone
-			token['mobile'] = user.profile.mobile
-			token['services'] = [group.name for group in user.groups.all()]
-		except :
-			print
+			token['email'] = user.email
+		except Exception as e:
+			print(e)
 		return token

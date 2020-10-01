@@ -74,7 +74,7 @@
                     </div>
                     <div class="user-hover">
                         <div class="user-info phone">{{ client.phone|default:"00 000 000" }}</div>
-                        <div class="user-info email">{{ client.email|default:"no e-mail" }}</div>
+                        <div class="user-info email">{{ client.user.email|default:"no e-mail" }}</div>
                         <div class="user-info date">{{ client.date }}</div>
                         <a href="#" class="commands-btn btn-print" onclick="generateTicket(event,'{% static 'css/card.css' %}')">
                             Imprimer
