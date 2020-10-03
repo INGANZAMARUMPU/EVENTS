@@ -7,11 +7,6 @@ class ProfileAdmin(admin.ModelAdmin):
 	ordering =  "user", "avatar", "phone", "ticket", "date", "autres"
 	readonly_fields = ['ticket']
 
-class TicketAdmin(admin.ModelAdmin):
-	list_display = "ticket_type", "consommable", "autres"
-	list_filter = "ticket_type", "consommable", "autres"
-	ordering = "ticket_type", "consommable", "autres"
-
 class TicketTypeAdmin(admin.ModelAdmin):
 	list_display = "name", "price", "consommable"
 	list_filter = "name", "price", "consommable"
@@ -40,7 +35,6 @@ class ConsommationAdmin(admin.ModelAdmin):
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(TicketType, TicketTypeAdmin)
-admin.site.register(Ticket, TicketAdmin)
 admin.site.register(Payment, PaymentAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Consommation, ConsommationAdmin)

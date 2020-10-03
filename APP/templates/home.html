@@ -13,10 +13,7 @@
             <div class="navbar">
                 <ul>
                     <li><a href="/">Acceuil</a></li>
-                    <li><a href="/admin/API/ticket/">Ticket</a></li>
-                    <li><a href="/admin/API/payment/">Payements</a></li>
-                    <li><a href="/admin/API/product/">Produits</a></li>
-                    <li><a href="/admin/API/consommation/">Consomations</a></li>
+                    <li><a href="/admin" target="_blank">Administration</a></li>
                 </ul>
             </div>
             <div class="component profile">
@@ -47,6 +44,7 @@
 
                 <div style="display: flow-root;">
                     <input type="submit" value="print all" style="float:left; height:2em" onclick="generateTickets('{% static 'css/card.css' %}')">
+                    <input type="submit" value="copy emails" style="margin-left:5px; float:left; height:2em" onclick="toClipboard('{% for client in clients %}{{client.user.email}} {% endfor %}')">
                     <input type="text" placeholder="recherche..." style="float:right; height:2em">
                 </div>
                 <div class="recycler">

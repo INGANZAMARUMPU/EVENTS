@@ -10,7 +10,7 @@ class Event(models.Model):
 	logo = models.ImageField(upload_to="logo/")
 
 	def save(self, *args, **kwargs):
-		if not self.pk and MyModel.objects.exists():
+		if not self.pk and Event.objects.exists():
 			raise ValueError("Only One Event is permitted.")
 		super().save(*args, **kwargs)
 
