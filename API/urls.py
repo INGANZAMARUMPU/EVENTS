@@ -10,7 +10,7 @@ router.register("ticket", TicketViewset)
 router.register("payment", PaymentViewset)
 router.register("product", ProductViewset)
 router.register("consommation", ConsommationViewset)
-# router.register("chart_menus", ChartRecetteViewset, basename='chart_menus')
+router.register("event", EventViewset)
 
 urlpatterns = [
 	path("", include(router.urls)),

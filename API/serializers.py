@@ -3,6 +3,11 @@ from rest_framework import serializers
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+class EventSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Event
+		fields = "__all__"
+
 class TicketSerializer(serializers.ModelSerializer):
 	name = serializers.SerializerMethodField()
 	price = serializers.SerializerMethodField()

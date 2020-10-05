@@ -13,10 +13,16 @@ from .serializers import *
 class TokenPairView(TokenObtainPairView):
 	serializer_class = TokenPairSerializer
 
+class EventViewset(viewsets.ModelViewSet):
+	authentication_classes = [SessionAuthentication, JWTAuthentication]
+	permission_classes = [IsAuthenticated]
+	queryset = Event.objects.all()
+	serializer_class = EventSerializer
+
 class ProfileViewset(viewsets.ModelViewSet):
 	authentication_classes = [SessionAuthentication, JWTAuthentication]
 	permission_classes = [IsAuthenticated]
-	queryset = Profile.objects.all()
+	queryset = Profile.objects.select_related("user", "ticket")
 	serializer_class = ProfileSerializer
 
 	@action(['GET'], False,r'scanqr/(?P<qr>[0-9a-zA-Z]+)', "scanqr")
