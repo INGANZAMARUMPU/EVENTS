@@ -8,6 +8,11 @@ class EventSerializer(serializers.ModelSerializer):
 		model = Event
 		fields = "__all__"
 
+class UserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = "first_name", "last_name"
+
 class TicketSerializer(serializers.ModelSerializer):
 	name = serializers.SerializerMethodField()
 	price = serializers.SerializerMethodField()
@@ -26,6 +31,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 	fullname = serializers.SerializerMethodField()
 	email = serializers.SerializerMethodField()
 	ticket = TicketSerializer(many=False, read_only=True)
+	user = UserSerializer(many=False, read_only=True)
 
 	def get_fullname(self, obj):
 		return f"{obj.user.first_name} {obj.user.last_name}"
@@ -35,7 +41,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Profile
-		fields = "id", "fullname", "avatar", "phone", "email", "date", "ticket", "autres", "qr"
+		fields = "id", "user", "fullname", "avatar", "phone", "email", "date", "ticket", "autres", "qr"
 		depth = 1
 
 class PaymentSerializer(serializers.ModelSerializer):
