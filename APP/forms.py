@@ -38,7 +38,7 @@ class ProfileForm(forms.ModelForm):
 			self.fields["lastname"].initial = profile.user.last_name
 			self.fields["firstname"].initial = profile.user.first_name
 			self.fields["phone"].initial = profile.phone
-			self.fields["email"].initial = profile.email
+			self.fields["email"].initial = profile.user.email
 			self.fields["ticket_type"].initial = profile.ticket.ticket_type
 			self.fields["autres"].initial = profile.autres
 			self.fields["avatar"].initial = profile.avatar

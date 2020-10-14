@@ -11,6 +11,9 @@
     <body>
         <div class="container">
             <div class="navbar">
+                <div class="logo">
+                    <img src="{{ event.logo.url }}" alt="" height="30px" id="logo">
+                </div>
                 <ul>
                     <li><a href="/">Acceuil</a></li>
                     <li><a href="/admin" target="_blank">Administration</a></li>
@@ -74,7 +77,7 @@
                         <div class="user-info phone">{{ client.phone|default:"00 000 000" }}</div>
                         <div class="user-info email">{{ client.user.email|default:"no e-mail" }}</div>
                         <div class="user-info date">{{ client.date }}</div>
-                        <a href="#" class="commands-btn btn-print" onclick="generateTicket(event,'{% static 'css/card.css' %}')">
+                        <a href="#" class="commands-btn btn-print" onclick="generateTicket(event)">
                             Imprimer
                         </a>
                         <a href="{% url 'editprofile' client.id %}" class="commands-btn">Modifier</a>

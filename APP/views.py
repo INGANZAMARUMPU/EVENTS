@@ -17,15 +17,21 @@ def getIps():
 
 class Home(LoginRequiredMixin, View):
 	template_name = "home.html"
+	def __init__(self, *args, **kwargs):
+		View.__init__(self, *args, **kwargs)
+
 	def get(self, request):
 		ip_adresses = getIps()
-		clients = Profile.objects.all()[:10]
+		clients = Profile.objects.all()
+		event = Event.objects.all()[0]
 		form = ProfileForm()
 		return render(request, self.template_name, locals())
 
 	def post(self, request):
-		form = ProfileForm(request.POST, request.POST, request.FILES)
 		ip_adresses = getIps()
+		clients = Profile.objects.all()
+		event = Event.objects.all()[0]
+		form = ProfileForm(request.POST, request.POST, request.FILES)
 		if form.is_valid():
 			profile = form.save(commit=False)
 			username = form.cleaned_data['phone']
@@ -48,18 +54,22 @@ class Home(LoginRequiredMixin, View):
 			profile.ticket = ticket
 			profile.save()
 			return redirect("/")
-		clients = Profile.objects.all()[:10]
 		return render(request, self.template_name, locals())
 
 class EditProfile(LoginRequiredMixin, View):
 	template_name = "home.html"
 	def get(self, request, profile_id):
+		ip_adresses = getIps()
 		clients = Profile.objects.all()
+		event = Event.objects.all()[0]
 		profile = get_object_or_404(Profile, id=profile_id)
 		form = ProfileForm(instance=profile)
 		return render(request, self.template_name, locals())
 
 	def post(self, request, profile_id):
+		ip_adresses = getIps()
+		clients = Profile.objects.all()
+		event = Event.objects.all()[0]
 		profile = get_object_or_404(Profile, id=profile_id)
 		form = ProfileForm(request.POST, request.FILES, instance=profile)
 		
@@ -92,13 +102,18 @@ class EditProfile(LoginRequiredMixin, View):
 class DeleteProfile(LoginRequiredMixin, View):
 	template_name = "home.html"
 	def get(self, request, profile_id):
+		ip_adresses = getIps()
 		clients = Profile.objects.all()
+		event = Event.objects.all()[0]
 		profile = get_object_or_404(Profile, id=profile_id)
 		form = ProfileForm(instance=profile)
 		delete = True
 		return render(request, self.template_name, locals())
 
 	def post(self, request, profile_id):
+		ip_adresses = getIps()
+		clients = Profile.objects.all()
+		event = Event.objects.all()[0]
 		profile = get_object_or_404(Profile, id=profile_id)
 		form = ProfileForm(request.POST, request.FILES, instance=profile)
 		

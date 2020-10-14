@@ -5,6 +5,14 @@
     position: sticky;
     z-index: 3;
 }
+.logo{
+	display: inline;
+	top: 0;
+	left: 0;
+}
+.logo img{
+	margin: 5px;
+}
 li{
 	list-style-type: none;
 }

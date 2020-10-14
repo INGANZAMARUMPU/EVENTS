@@ -12,31 +12,87 @@ function templateTicket(infos){
 	    ecclevel : 'L'
 	});
 	return`
-		<div class="ticket" id="#ticket">
-		    <div class="title">${infos.event_name}</div>
-		    <div class="left">
-		        <div class="img-user">
-		            <img avatar src="${infos.user_img}" alt="">
-		        </div>
-		        <h3 firstname>${infos.firstname}</h3>
-		        <h3 lastname>${infos.lastname}</h3>
-		        <div class="bottom-infos">
-		            <h3 phone>${infos.telephone}</h3>
-		            <h5 email>${infos.email}</h5>
-		        </div>
-		    </div>
-		    <div class="right">
-		        <h3 ticket>${infos.ticket_type}</h3>
-		        <div quarter>${infos.quarter}</div>
-		        <div date>${infos.event_date}</div>
-		        <div place>${infos.event_place}</div>
-		        <div qrimage><img src="${qr}"/></div>
-		    </div>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<style type="text/css" media="screen">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		.card{
+			position: relative;
+			background: black;
+			width: 10cm;
+			height: 5cm;
+			color: white;
+		}
+		.cadre1{
+			position: absolute;
+			border-left: 2px solid white;
+			border-bottom: 2px solid white;
+			width: 2.5cm;
+			height: 2.5cm;
+			top: 1.75cm;
+			left: 1cm;
+		}
+		.cadre2{
+			position: absolute;
+			border-top: 2px solid white;
+			border-right: 2px solid white;
+			width: 5cm;
+			height: 3.25cm;
+			top:1cm;
+			left: 3.75cm;
+		}
+		.logo img{
+			width: 2.5cm;
+		}
+		.logo{
+			position: absolute;
+			width: 2.5cm;
+			left: 1.5cm;
+			top: 1.25cm;
+		}
+		.alpha{
+			position: absolute;
+			left:1.25cm;
+			font-size: 2em;
+			top: 0.25cm;
+		}
+		.title{
+			position: absolute;
+			left: 4.5cm;
+			top: 0.5cm;
+			font-weight: bold;
+		}
+		.qr img{
+			width: 2.5cm;
+		}
+		.qr{
+			position: absolute;
+			bottom: 0.7cm;
+			right: 1.24cm;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="card">
+			<div class="alpha">Alpha</div>
+			<div class="title">PRIVATE PARTY</div>
+			<div class="cadre1"></div>
+			<div class="cadre2"></div>
+			<div class="logo"><img src="${infos.logo}" alt=""/></div>
+			<div class="qr"><img src="${qr}" alt=""/></div>
 		</div>
+	</div>
+</body>
 		`
 }
 
-function generateTicket(event, ...css){
+function generateTicket(event){
 	user_card = closest(event.target, '.user-card', '.component');
 
 	var userSelector = function(str){
@@ -57,11 +113,12 @@ function generateTicket(event, ...css){
 		event_date: userSelector('.date').textContent,
 		event_place: userSelector('.place').textContent,
 		ticket_date: userSelector('.ticket-date').textContent,
+		logo: document.getElementById('logo').getAttribute('src'),
 		qr_text: user_card.getAttribute('qr-data'),
 	}
-	printTicket(templateTicket(infos), ...css);
+	printTicket(templateTicket(infos));
 }
-function generateTickets(...css){
+function generateTickets(){
 	var user_cards = document.querySelectorAll(".user-card");
 	div = `<div style="display: inline-flex;">`;
 	user_cards.forEach(function(user_card){
@@ -88,14 +145,11 @@ function generateTickets(...css){
 		div += templateTicket(infos);
 	})
 	div += "</div>"
-	printTicket(div, ...css);
+	printTicket(div);
 }
 
-function printTicket(text, ...css){
+function printTicket(text){
 	var a = window.open('', '', 'height=500, width=1000'); 
-	for(let style of css){
-		a.document.write(`<link rel="stylesheet" href="${style}" type="text/css" />`);
-	}
 	a.document.write(text);  
 	a.document.close(); 
 	setTimeout(function(){
