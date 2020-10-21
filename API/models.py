@@ -63,7 +63,7 @@ class Profile(models.Model):
 class Payment(models.Model):
 	profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 	somme = models.PositiveIntegerField(null=False, blank=False)
-	date = models.DateField(default=timezone.now)
+	date = models.DateTimeField(default=timezone.now)
 	autres = models.TextField(blank=True, null=True)
 
 	def save(self, *args, **kwargs):

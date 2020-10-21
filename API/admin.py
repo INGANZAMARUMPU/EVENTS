@@ -1,21 +1,37 @@
+from admin_totals.admin import ModelAdminTotals
 from django.contrib import admin
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
 from .models import *
 
-class ProfileAdmin(admin.ModelAdmin):
+class ProfileAdmin(ModelAdminTotals):
 	list_display = "user", "avatar", "phone", "ticket", "date", "autres"
-	list_filter =  "user", "avatar", "phone", "ticket", "date", "autres"
-	ordering =  "user", "avatar", "phone", "ticket", "date", "autres"
+	list_filter =  "user", "avatar", "phone", "ticket__ticket_type", "date"
+	ordering =  "user", "avatar", "phone", "ticket", "date"
 	readonly_fields = ['ticket']
+	list_totals = [
+		('ticket', lambda field: Coalesce(Sum(f"{field}__ticket_type__price"), 0)),
+		# ('col_c', Avg)
+	]
 
 class TicketTypeAdmin(admin.ModelAdmin):
 	list_display = "name", "price", "consommable"
 	list_filter = "name", "price", "consommable"
 	ordering = "name", "price", "consommable"
 
-class PaymentAdmin(admin.ModelAdmin):
-	list_display = "profile", "somme", "date", "autres"
+class PaymentAdmin(ModelAdminTotals):
+	fields = "profile", "somme",
+	list_display = "profile", "phone","somme", "date", "autres"
 	list_filter = "profile", "somme", "date", "autres"
+	search_fields = "profile__phone", "profile__user__first_name", "profile__user__last_name"
+	list_totals = [
+		('somme', lambda field: Coalesce(Sum(field), 0)),
+		# ('col_c', Avg)
+	]
 	ordering = "profile", "somme", "date", "autres"
+
+	def phone(self, obj):
+		return f"{obj.profile.phone}"
 
 class EventAdmin(admin.ModelAdmin):
 	list_display = "name", "place", "date", "logo"

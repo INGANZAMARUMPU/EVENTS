@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'API',
     'APP',
     'rest_framework',
+    'admin_totals',
     'corsheaders',
 ]
 

@@ -34,7 +34,7 @@ class ProfileViewset(viewsets.ModelViewSet):
 
 class TicketViewset(viewsets.ModelViewSet):
 	authentication_classes = [SessionAuthentication, JWTAuthentication]
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticatedOrReadOnly, ]
 	queryset = Ticket.objects.all()
 	serializer_class = TicketSerializer
 
