@@ -37,7 +37,7 @@ class Home(LoginRequiredMixin, View):
 			username = form.cleaned_data['phone']
 			firstname = form.cleaned_data['firstname']
 			lastname = form.cleaned_data['lastname']
-			lastname = form.cleaned_data['email']
+			email = form.cleaned_data['email']
 			ticket_type = form.cleaned_data['ticket_type']
 			password = "no password"
 

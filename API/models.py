@@ -16,15 +16,15 @@ class Event(models.Model):
 
 class TicketType(models.Model):
 	name = models.CharField(max_length=20, unique=True)
-	price = models.FloatField(null=False, blank=False)
-	consommable = models.FloatField(default=0)
+	price = models.PositiveIntegerField(null=False, blank=False)
+	consommable = models.PositiveIntegerField(default=0)
 
 	def __str__(self):
 		return self.name
 
 class Ticket(models.Model):
 	ticket_type = models.ForeignKey(TicketType, verbose_name='type', on_delete=models.CASCADE)
-	consommable = models.FloatField(default=0)
+	consommable = models.PositiveIntegerField(default=0)
 	autres = models.TextField(blank=True, null=True)
 
 	def save(self, *args, **kwargs):
