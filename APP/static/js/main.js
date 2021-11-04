@@ -23,8 +23,8 @@ function templateHead(){
 function templateBody(infos){
 	var qr = QRCode.generatePNG(infos.qr_text, {
 	    ecclevel : 'L',
-        textcolor: "#DAA520",
-        fillcolor: "#000"
+        textcolor: "#000",
+        fillcolor: "#fff"
 	});
 	return`
 	<div class="container">
